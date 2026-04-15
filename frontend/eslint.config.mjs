@@ -1,17 +1,61 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+
+const noDeepFeatureImports = [
+  "app/**/*.{ts,tsx}",
+  "components/**/*.{ts,tsx}",
+  "lib/**/*.{ts,tsx}",
+  "server/**/*.{ts,tsx}",
+  "hooks/**/*.{ts,tsx}",
+  "stores/**/*.{ts,tsx}",
+  "config/**/*.{ts,tsx}",
+  "types/**/*.{ts,tsx}",
+  "emails/**/*.{ts,tsx}",
+];
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  // Override default ignores of eslint-config-next.
+  {
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
+  },
+  {
+    files: noDeepFeatureImports,
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "@/features/*/components/**",
+                "@/features/*/hooks/**",
+                "@/features/*/actions/**",
+                "@/features/*/schemas/**",
+                "@/features/*/queries/**",
+              ],
+              message:
+                "Import from @/features/<module> (barrel) only — no deep imports from outside that feature.",
+            },
+          ],
+        },
+      ],
+    },
+  },
   globalIgnores([
-    // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "scripts/**",
   ]),
 ]);
 
