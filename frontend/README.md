@@ -1,36 +1,178 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📘 UI Component System Setup – Day 1 (Button Component)
 
-## Getting Started
+## 🎯 Objective
 
-First, run the development server:
+The goal of today’s work was to start building a **scalable and reusable UI component system** using Next.js. The focus was on:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+* Creating a reusable **Button component**
+* Structuring files properly for scalability
+* Separating **styles, types, and logic**
+* Introducing a **demo layer** for testing components
+
+---
+
+## 🧠 Key Concepts Applied
+
+### 1. Separation of Concerns
+
+The Button component was divided into:
+
+* **Styles** (`button.styles.ts`)
+* **Types** (`button.types.ts`)
+* **Component logic** (`button.tsx`)
+
+This improves:
+
+* Maintainability
+* Reusability
+* Scalability
+
+---
+
+### 2. Component vs Demo Pattern
+
+Two different layers were introduced:
+
+#### ✅ UI Component
+
+Reusable across the app:
+
+```tsx
+<Button variant="ghost">Click me</Button>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### 🧪 Demo Component
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Used only for testing and showcasing all variants:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```tsx
+<ButtonDemo />
+```
 
-## Learn More
+This ensures:
 
-To learn more about Next.js, take a look at the following resources:
+* Real pages stay clean
+* Components are tested in isolation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Scalable Folder Structure
 
-## Deploy on Vercel
+The project follows a structure where:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Routing stays inside `app/`
+* Reusable components stay inside `src/components`
+* Demo/testing components are separated
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This aligns with Next.js best practices where application code can be organized inside `src` for better scalability and separation from config files ([Next.js][1]).
+
+---
+
+## 📁 Final Folder Structure
+
+```bash
+app/                         # Root app folder (not used here)
+
+src/
+  app/
+    page.tsx
+    layout.tsx
+
+  components/
+    ui/
+      button/
+        button.tsx
+        button.styles.ts
+        button.types.ts
+        index.ts
+
+  styles/
+    globals.css
+
+demo/
+  button-demo.tsx
+```
+
+---
+
+## 🔘 Button Component Architecture
+
+### Files Breakdown:
+
+### `button.styles.ts`
+
+* Contains all Tailwind + variant logic using `tailwind-variants`
+
+### `button.types.ts`
+
+* Defines TypeScript props using `VariantProps`
+
+### `button.tsx`
+
+* Main reusable component
+* Combines styles + props
+
+### `index.ts`
+
+* Clean export for easier imports
+
+---
+
+## 📄 Demo Usage
+
+The demo file (`demo/button-demo.tsx`) is used to:
+
+* Display all button variants
+* Test states (hover, disabled, focused)
+* Validate UI consistency
+
+---
+
+## 🔗 Import Strategy
+
+Since `demo/` is outside `src/`, relative imports are used:
+
+```tsx
+import { ButtonDemo } from "../../demo/button-demo";
+```
+
+---
+
+## ⚠️ Important Rules
+
+* Do NOT use demo components in production pages
+* Do NOT hardcode styles inside components
+* Keep components reusable (no app-specific logic)
+* Maintain consistent file structure across all components
+
+---
+
+## 🚀 Outcome
+
+By the end of this task:
+
+* A reusable **Button system** is implemented
+* A **clean architecture pattern** is established
+* The project is now ready to scale with more components (e.g., Card, Input)
+
+---
+
+## 🔜 Next Steps
+
+* Build **Card component** using same structure
+* Introduce **design tokens (colors, spacing)**
+* Optionally integrate **Storybook for UI documentation**
+
+---
+
+## 💡 Summary
+
+This setup ensures that:
+
+* UI components remain reusable across projects
+* Codebase stays clean and maintainable
+* Future scaling becomes easier
+
+---
+
+[1]: https://nextjs.org/docs/app/building-your-application/configuring/src-directory?utm_source=chatgpt.com "File-system conventions: src | Next.js"
