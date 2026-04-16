@@ -9,6 +9,9 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = process.cwd();
+function warn(message) {
+  process.stderr.write(`${message}\n`);
+}
 
 const ALIASED_DIRS = [
   "components/ui",
@@ -40,9 +43,11 @@ function listTsFiles(dir, base = "") {
     const rel = path.join(base, e.name);
     if (e.isDirectory()) {
       if (e.name === "node_modules" || e.name === ".next") continue;
+      if (e.name === "stories" || e.name === "__stories__") continue;
       files.push(...listTsFiles(path.join(dir, e.name), rel));
     } else if (/\.(ts|tsx)$/.test(e.name) && !e.name.endsWith(".d.ts")) {
       if (e.name === "index.ts" || e.name === "index.tsx") continue;
+      if (/\.stories\.(ts|tsx)$/.test(e.name)) continue;
       if (/\.(test|spec)\.(ts|tsx)$/.test(e.name)) continue;
       files.push(rel);
     }
@@ -92,28 +97,24 @@ function isCoveredByReExports(filePath, reExports) {
 }
 
 function main() {
-  let hasWarnings = false;
   for (const dir of ALIASED_DIRS) {
     const fullDir = path.join(ROOT, dir);
     if (!fs.existsSync(fullDir)) continue;
     const files = listTsFiles(dir);
     const { reExports, hasIndex } = readIndexExports(dir);
     if (!hasIndex && files.length > 0) {
-      console.warn(`[barrel] ${dir}: has .ts/.tsx files but no index.ts`);
-      hasWarnings = true;
+      warn(`[barrel] ${dir}: has .ts/.tsx files but no index.ts`);
     }
     for (const f of files) {
       if (!isCoveredByReExports(f, reExports)) {
-        console.warn(`[barrel] ${dir}: file '${f}' is not re-exported from index.ts`);
-        hasWarnings = true;
+        warn(`[barrel] ${dir}: file '${f}' is not re-exported from index.ts`);
       }
     }
     for (const re of reExports) {
       const possible = [re, re + ".ts", re + ".tsx", path.join(re, "index.ts"), path.join(re, "index.tsx")];
       const exists = possible.some((p) => fs.existsSync(path.join(ROOT, dir, p)));
       if (!exists) {
-        console.warn(`[barrel] ${dir}/index.ts: re-exports '${re}' but file not found`);
-        hasWarnings = true;
+        warn(`[barrel] ${dir}/index.ts: re-exports '${re}' but file not found`);
       }
     }
   }

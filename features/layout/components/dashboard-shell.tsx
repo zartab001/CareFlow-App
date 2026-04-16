@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ReactElement, ReactNode } from "react";
-
 type NavItem = {
   href: string;
   label: string;
@@ -14,7 +13,6 @@ type NavGroup = {
   label: string;
   items: NavItem[];
 };
-
 const navGroups: NavGroup[] = [
   {
     label: "Main",
@@ -196,7 +194,6 @@ const navGroups: NavGroup[] = [
     ],
   },
 ];
-
 export function DashboardShell({
   children,
 }: Readonly<{ children: ReactNode }>): ReactElement {
@@ -217,7 +214,6 @@ export function DashboardShell({
     </div>
   );
 }
-
 function SidebarGroup({ group }: { group: NavGroup }): ReactElement {
   return (
     <div>
@@ -230,7 +226,6 @@ function SidebarGroup({ group }: { group: NavGroup }): ReactElement {
     </div>
   );
 }
-
 function SidebarNavItem({ item }: { item: NavItem }): ReactElement {
   return (
     <Link
@@ -257,7 +252,6 @@ function SidebarNavItem({ item }: { item: NavItem }): ReactElement {
     </Link>
   );
 }
-
 function SidebarLogo(): ReactElement {
   return (
     <div className="flex items-center gap-[11px] border-b border-[rgba(255,255,255,0.06)] px-5 pb-[18px] pt-[22px]">
@@ -277,7 +271,6 @@ function SidebarLogo(): ReactElement {
     </div>
   );
 }
-
 function SidebarUser(): ReactElement {
   return (
     <div className="flex items-center gap-2.5 border-t border-[rgba(255,255,255,0.06)] px-4 py-3.5">
