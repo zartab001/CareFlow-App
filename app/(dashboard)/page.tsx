@@ -1,32 +1,12 @@
-import Link from "next/link";
-
 export default function DashboardHomePage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-          Agency overview
-        </h1>
-        <p className="text-sm text-zinc-600">
-          KPIs and shortcuts will live here.
-        </p>
-      </div>
-      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <DashboardLink href="/patients" label="Patients" />
-        <DashboardLink href="/scheduling" label="Scheduling" />
-        <DashboardLink href="/staff" label="Staff" />
-      </ul>
+    <div className="rounded-xl border border-[#E4E5EA] bg-white p-8 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+      <h1 className="font-heading text-2xl font-extrabold tracking-[-0.02em] text-[#111318]">
+        Dashboard Body
+      </h1>
+      <p className="mt-2 text-sm text-[#5C5F6A]">
+        Main content area is ready.
+      </p>
     </div>
-  );
-}
-
-function DashboardLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="rounded-lg border border-zinc-200 bg-white p-4 text-sm font-medium text-zinc-900 shadow-sm transition hover:border-zinc-300"
-    >
-      {label}
-    </Link>
   );
 }
