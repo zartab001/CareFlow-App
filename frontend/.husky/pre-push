@@ -1,0 +1,4 @@
+# Scripts assume process.cwd() is the Next app root (frontend/).
+cd frontend || exit 1
+node scripts/check-barrel-completeness.js
+node scripts/verify-codebase.js

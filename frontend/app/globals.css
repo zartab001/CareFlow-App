@@ -1,0 +1,364 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=general-sans@400,500,600,700&f[]=jetbrains-mono@400,500,700&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Breakpoint for desktop 12-col grid (careflow_design_system.html §02 / §07) */
+@custom-variant cf-desktop (@media (width >= 90rem));
+
+@theme inline {
+  --font-sans: var(--font-stack-sans);
+  --font-mono: var(--font-stack-mono);
+  --font-heading: var(--font-stack-heading);
+  --font-display: var(--font-stack-heading);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* CareFlow palette */
+  --color-cf-bg: var(--cf-bg);
+  --color-cf-surface: var(--cf-surface);
+  --color-cf-surface-muted: var(--cf-surface-muted);
+  --color-cf-surface-inset: var(--cf-surface-inset);
+  --color-cf-border: var(--cf-border);
+  --color-cf-border-light: var(--cf-border-light);
+  --color-cf-ink: var(--cf-ink);
+  --color-cf-ink-80: var(--cf-ink-80);
+  --color-cf-ink-60: var(--cf-ink-60);
+  --color-cf-ink-40: var(--cf-ink-40);
+  --color-cf-ink-20: var(--cf-ink-20);
+  --color-brand-50: var(--cf-brand-50);
+  --color-brand-100: var(--cf-brand-100);
+  --color-brand-200: var(--cf-brand-200);
+  --color-brand-300: var(--cf-brand-300);
+  --color-brand-400: var(--cf-brand-400);
+  --color-brand-500: var(--cf-brand-500);
+  --color-brand-600: var(--cf-brand-600);
+  --color-brand-700: var(--cf-brand-700);
+  --color-brand-800: var(--cf-brand-800);
+  --color-brand-900: var(--cf-brand-900);
+  --color-cf-blue-50: var(--cf-blue-50);
+  --color-cf-blue-500: var(--cf-blue-500);
+  --color-cf-amber-50: var(--cf-amber-50);
+  --color-cf-amber-500: var(--cf-amber-500);
+  --color-cf-red-50: var(--cf-red-50);
+  --color-cf-red-500: var(--cf-red-500);
+
+  /* Semantic states — tokens.json / HTML §05 */
+  --color-success: var(--cf-success);
+  --color-success-foreground: var(--cf-success-fg);
+  --color-success-muted: var(--cf-success-muted);
+  --color-info: var(--cf-info);
+  --color-info-foreground: var(--cf-info-fg);
+  --color-info-muted: var(--cf-info-muted);
+  --color-warning: var(--cf-warning);
+  --color-warning-foreground: var(--cf-warning-fg);
+  --color-warning-muted: var(--cf-warning-muted);
+  --color-error: var(--cf-error);
+  --color-error-foreground: var(--cf-error-fg);
+  --color-error-muted: var(--cf-error-muted);
+
+  /* Radii — design tokens §08 (cf-* in addition to shadcn --radius) */
+  --radius-cf-xs: 0.25rem;
+  --radius-cf-sm: 0.375rem;
+  --radius-cf-md: 0.5rem;
+  --radius-cf-lg: 0.75rem;
+  --radius-cf-xl: 1rem;
+  --radius-cf-2xl: 1.25rem;
+
+  /* Shadows — design tokens §08 */
+  --shadow-cf-xs: 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-cf-sm: 0 2px 8px rgb(0 0 0 / 0.06);
+  --shadow-cf-md: 0 4px 16px rgb(0 0 0 / 0.08);
+  --shadow-cf-lg: 0 8px 32px rgb(0 0 0 / 0.12);
+
+  /* Typography scale — HTML §04 + tokens.json */
+  --text-cf-caption: 0.6875rem;
+  --text-cf-caption--line-height: 1rem;
+  --text-cf-body-sm: 0.8125rem;
+  --text-cf-body-sm--line-height: 1.25rem;
+  --text-cf-body: 0.875rem;
+  --text-cf-body--line-height: 1.375rem;
+  --text-cf-body-lg: 1rem;
+  --text-cf-body-lg--line-height: 1.5625rem;
+  --text-cf-h6: 1rem;
+  --text-cf-h6--line-height: 1.375rem;
+  --text-cf-h5: 1.125rem;
+  --text-cf-h5--line-height: 1.5rem;
+  --text-cf-h4: 1.375rem;
+  --text-cf-h4--line-height: 1.75rem;
+  --text-cf-h3: 1.75rem;
+  --text-cf-h3--line-height: 2.125rem;
+  --text-cf-h2: 2.25rem;
+  --text-cf-h2--line-height: 2.625rem;
+  --text-cf-h1: 3rem;
+  --text-cf-h1--line-height: 3.5rem;
+  --text-cf-display: 4.5rem;
+  --text-cf-display--line-height: 5rem;
+
+  /* Motion — tokens.json transitions */
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-cf-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --cf-bg: #fafafb;
+  --cf-surface: #ffffff;
+  --cf-surface-muted: #f5f5f7;
+  --cf-surface-inset: #ecedf0;
+  --cf-border: #e5e5e8;
+  --cf-border-light: #efeff2;
+  --cf-ink: #0f1117;
+  --cf-ink-80: #43474f;
+  --cf-ink-60: #717680;
+  --cf-ink-40: #a3a7af;
+  --cf-ink-20: #d5d7dc;
+  --cf-brand-50: #eefbf3;
+  --cf-brand-100: #dcf5e7;
+  --cf-brand-200: #afe5c5;
+  --cf-brand-300: #7cce9d;
+  --cf-brand-400: #49b375;
+  --cf-brand-500: #1a7f56;
+  --cf-brand-600: #166e4a;
+  --cf-brand-700: #11593a;
+  --cf-brand-800: #0c442b;
+  --cf-brand-900: #082f1e;
+  --cf-blue-50: #ebf2fc;
+  --cf-blue-500: #3574d4;
+  --cf-amber-50: #fef6e4;
+  --cf-amber-500: #d4930f;
+  --cf-red-50: #fdf0f0;
+  --cf-red-500: #d44040;
+
+  --cf-success: #1a7f56;
+  --cf-success-fg: #ffffff;
+  --cf-success-muted: #eefbf3;
+  --cf-info: #3574d4;
+  --cf-info-fg: #ffffff;
+  --cf-info-muted: #ebf2fc;
+  --cf-warning: #d4930f;
+  --cf-warning-fg: #ffffff;
+  --cf-warning-muted: #fef6e4;
+  --cf-error: #d44040;
+  --cf-error-fg: #ffffff;
+  --cf-error-muted: #fdf0f0;
+
+  --font-stack-sans: "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-stack-heading: "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --font-stack-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --cf-transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cf-transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cf-transition-smooth: 300ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  --background: var(--cf-bg);
+  --foreground: var(--cf-ink);
+  --card: var(--cf-surface);
+  --card-foreground: var(--cf-ink);
+  --popover: var(--cf-surface);
+  --popover-foreground: var(--cf-ink);
+  --primary: var(--cf-brand-500);
+  --primary-foreground: #ffffff;
+  --secondary: var(--cf-surface-muted);
+  --secondary-foreground: var(--cf-ink);
+  --muted: var(--cf-surface-muted);
+  --muted-foreground: var(--cf-ink-60);
+  --accent: var(--cf-surface-muted);
+  --accent-foreground: var(--cf-ink);
+  --destructive: var(--cf-red-500);
+  --border: var(--cf-border);
+  --input: var(--cf-border);
+  --ring: var(--cf-brand-200);
+  --chart-1: var(--cf-brand-400);
+  --chart-2: var(--cf-blue-500);
+  --chart-3: var(--cf-amber-500);
+  --chart-4: var(--cf-ink-40);
+  --chart-5: var(--cf-brand-700);
+  --radius: 0.5rem;
+  --sidebar: var(--cf-surface);
+  --sidebar-foreground: var(--cf-ink);
+  --sidebar-primary: var(--cf-brand-500);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--cf-surface-muted);
+  --sidebar-accent-foreground: var(--cf-ink);
+  --sidebar-border: var(--cf-border);
+  --sidebar-ring: var(--cf-brand-200);
+}
+
+.dark {
+  --cf-bg: #0c0d10;
+  --cf-surface: #14161c;
+  --cf-surface-muted: #1a1d24;
+  --cf-surface-inset: #22252e;
+  --cf-border: #2a2e38;
+  --cf-border-light: #242830;
+  --cf-ink: #f5f5f7;
+  --cf-ink-80: #d5d7dc;
+  --cf-ink-60: #a3a7af;
+  --cf-ink-40: #717680;
+  --cf-ink-20: #43474f;
+  --cf-brand-50: #082f1e;
+  --cf-brand-100: #0c442b;
+  --cf-brand-200: #11593a;
+  --cf-brand-300: #166e4a;
+  --cf-brand-400: #49b375;
+  --cf-brand-500: #7cce9d;
+  --cf-brand-600: #afe5c5;
+  --cf-brand-700: #dcf5e7;
+  --cf-brand-800: #eefbf3;
+  --cf-brand-900: #f6fcf9;
+  --cf-blue-50: #152536;
+  --cf-blue-500: #5a8fe0;
+  --cf-amber-50: #2a2310;
+  --cf-amber-500: #e4a82e;
+  --cf-red-50: #2a1515;
+  --cf-red-500: #e06363;
+
+  --cf-success: #7cce9d;
+  --cf-success-fg: #082f1e;
+  --cf-success-muted: #0c2418;
+  --cf-info: #5a8fe0;
+  --cf-info-fg: #ffffff;
+  --cf-info-muted: #152536;
+  --cf-warning: #e4a82e;
+  --cf-warning-fg: #1a1508;
+  --cf-warning-muted: #2a2310;
+  --cf-error: #e06363;
+  --cf-error-fg: #1f0a0a;
+  --cf-error-muted: #2a1515;
+
+  --background: var(--cf-bg);
+  --foreground: var(--cf-ink);
+  --card: var(--cf-surface);
+  --card-foreground: var(--cf-ink);
+  --popover: var(--cf-surface);
+  --popover-foreground: var(--cf-ink);
+  --primary: var(--cf-brand-400);
+  --primary-foreground: #082f1e;
+  --secondary: var(--cf-surface-muted);
+  --secondary-foreground: var(--cf-ink);
+  --muted: var(--cf-surface-muted);
+  --muted-foreground: var(--cf-ink-60);
+  --accent: var(--cf-surface-muted);
+  --accent-foreground: var(--cf-ink);
+  --destructive: var(--cf-red-500);
+  --border: var(--cf-border);
+  --input: var(--cf-border);
+  --ring: var(--cf-brand-500);
+  --chart-1: var(--cf-brand-400);
+  --chart-2: var(--cf-blue-500);
+  --chart-3: var(--cf-amber-500);
+  --chart-4: var(--cf-ink-40);
+  --chart-5: var(--cf-brand-200);
+  --sidebar: var(--cf-surface);
+  --sidebar-foreground: var(--cf-ink);
+  --sidebar-primary: var(--cf-brand-400);
+  --sidebar-primary-foreground: #082f1e;
+  --sidebar-accent: var(--cf-surface-muted);
+  --sidebar-accent-foreground: var(--cf-ink);
+  --sidebar-border: var(--cf-border);
+  --sidebar-ring: var(--cf-brand-500);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  /** Prefer visible focus for keyboard users; components with custom rings use `outline-none`. */
+  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  :where(button:not(:disabled), [role="button"]:not([aria-disabled="true"])) {
+    @apply cursor-pointer;
+  }
+  :where(button:disabled, [aria-disabled="true"]) {
+    @apply cursor-not-allowed;
+  }
+  :where(input:disabled, textarea:disabled, select:disabled) {
+    @apply cursor-not-allowed;
+  }
+  html {
+    @apply font-sans antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-stack-heading);
+    letter-spacing: -0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Focus ring matching HTML §09 (3px brand-200 + offset) */
+@utility cf-focus-ring {
+  @apply outline-none ring-[3px] ring-brand-200/90 ring-offset-2 ring-offset-background;
+}
+
+/* App shell: max 1280px content, gutters per grid spec (mobile 20 / tablet 48 / desktop 80) */
+@utility cf-container {
+  @apply mx-auto w-full max-w-7xl px-5 md:px-12 xl:px-20;
+}
+
+/* Readable body copy — HTML §09 (max ~75ch, min 14px body in app = text-sm default on controls) */
+@utility cf-prose {
+  @apply max-w-[75ch] text-sm leading-normal md:text-base md:leading-relaxed;
+}
