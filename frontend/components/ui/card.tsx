@@ -1,20 +1,75 @@
 import * as React from "react"
 
+import {
+  type CardVariants,
+  cardVariants,
+} from "@/lib/design-system/variants/card-variants"
 import { cn } from "@/lib/utils"
+
+export type CardProps = React.ComponentProps<"div"> &
+  Omit<CardVariants, "density"> & {
+    size?: "default" | "sm"
+    /**
+     * When `variant="interactive"` and `onClick` is set, the card is keyboard-activatable
+     * (`Enter` / `Space`) and exposes `role="button"`.
+     */
+    disabled?: boolean
+  }
 
 function Card({
   className,
   size = "default",
+  variant = "default",
+  disabled = false,
+  onClick,
+  onKeyDown,
+  tabIndex,
+  role,
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: CardProps) {
+  const isPressable =
+    variant === "interactive" &&
+    typeof onClick === "function" &&
+    !disabled
+
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(e)
+      if (e.defaultPrevented || !isPressable) return
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault()
+        onClick(
+          e as unknown as React.MouseEvent<HTMLDivElement>
+        )
+      }
+    },
+    [isPressable, onClick, onKeyDown]
+  )
+
+  const resolvedTabIndex = disabled
+    ? -1
+    : isPressable
+      ? (tabIndex ?? 0)
+      : tabIndex
+
+  const resolvedRole = isPressable ? (role ?? "button") : role
+
   return (
     <div
       data-slot="card"
       data-size={size}
+      data-variant={variant}
+      data-disabled={disabled ? "" : undefined}
+      aria-disabled={disabled ? true : undefined}
       className={cn(
-        "group/card flex flex-col gap-4 overflow-hidden rounded-xl bg-card py-4 text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        cardVariants({ variant, density: size }),
+        disabled && "pointer-events-none opacity-60",
         className
       )}
+      onClick={disabled ? undefined : onClick}
+      onKeyDown={isPressable ? handleKeyDown : onKeyDown}
+      tabIndex={resolvedTabIndex}
+      role={resolvedRole}
       {...props}
     />
   )
@@ -100,4 +155,6 @@ export {
   CardFooter,
   CardHeader,
   CardTitle,
+  cardVariants,
 }
+export type { CardVariants }

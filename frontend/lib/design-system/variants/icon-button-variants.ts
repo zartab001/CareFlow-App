@@ -2,7 +2,7 @@ import { tv, type VariantProps } from "tailwind-variants"
 
 /** Matches `careflow_components.html` `.icon-btn*` (40 / 32 / 44 px). */
 export const iconButtonVariants = tv({
-  base: "inline-flex shrink-0 items-center justify-center border border-transparent transition-colors duration-150 outline-none focus-visible:ring-[3px] focus-visible:ring-brand-200/90 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  base: "inline-flex shrink-0 cursor-pointer items-center justify-center border border-transparent outline-none transition-[color,background-color,border-color,box-shadow,transform] duration-150 ease-out focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-brand-200/90 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97] motion-reduce:transition-none motion-reduce:active:scale-100 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   variants: {
     variant: {
       ghost:

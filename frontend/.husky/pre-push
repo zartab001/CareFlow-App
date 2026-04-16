@@ -1,0 +1,3 @@
+npm run lint
+node scripts/check-barrel-completeness.js
+node scripts/verify-codebase.js

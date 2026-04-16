@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:banned-patterns": "node scripts/check-banned-patterns.js",
+    "check:file-length": "node scripts/check-file-length.js",
+    "check:barrel-imports": "node scripts/check-barrel-imports.js",
+    "check:barrel-completeness": "node scripts/check-barrel-completeness.js",
+    "verify": "node scripts/verify-codebase.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@auth/core": "^0.41.2",
@@ -46,6 +52,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "eslint-plugin-simple-import-sort": "^13.0.0",
+    "husky": "^9.1.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
