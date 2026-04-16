@@ -5,8 +5,8 @@ import * as React from "react"
 import {
   type IconButtonVariants,
   iconButtonVariants,
-} from "@/lib/design-system/variants/icon-button-variants"
-import { cn } from "@/lib/utils"
+} from "variants"
+import { cn } from "lib"
 
 export type IconButtonProps = React.ComponentProps<"button"> &
   IconButtonVariants & {

@@ -21,14 +21,20 @@
     "paths": {
       "@/*": ["./*"],
       "@/app/*": ["./app/*"],
-      "@/features/*": ["./features/*"],
-      "@/components/*": ["./components/*"],
-      "@/lib/*": ["./lib/*"],
-      "@/server/*": ["./server/*"],
-      "@/hooks/*": ["./hooks/*"],
-      "@/stores/*": ["./stores/*"],
-      "@/types/*": ["./types/*"],
-      "@/config/*": ["./config/*"]
+      "config": ["./config/*"],
+      "features": ["./features"],
+      "server": ["./server"],
+      "stores": ["./stores"],
+      "ui-components": ["./components/ui"],
+      "variants": ["./components/design-system"],
+      "layouts": ["./components/layouts"],
+      "sections": ["./components/sections"],
+      "types": ["./types"],
+      "hooks": ["./hooks"],
+      "lib": ["./lib"],
+      "utils": ["./utils"],
+      "components": ["./components"],
+      "shared": ["./components/shared"]
     }
   },
   "include": [

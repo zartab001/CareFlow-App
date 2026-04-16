@@ -2,8 +2,8 @@ import { Input as InputPrimitive } from "@base-ui/react/input"
 import * as React from "react"
 import type { VariantProps } from "tailwind-variants"
 
-import { inputVariants } from "@/lib/design-system/variants/input-variants"
-import { cn } from "@/lib/utils"
+import { inputVariants } from "variants"
+import { cn } from "lib"
 
 type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
   VariantProps<typeof inputVariants> & {

@@ -5,7 +5,7 @@ import * as React from "react"
 import {
   type TableVariants,
   tableVariants,
-} from "@/lib/design-system/variants/table-variants"
+} from "variants"
 import { cn } from "@/lib/utils"
 
 type TableVariant = NonNullable<TableVariants["variant"]>

@@ -1,32 +1,28 @@
 "use client";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, type ReactNode } from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "ui-components";
 
 import {
   type UpdatePatientActionState,
   updatePatientDisplayNameAction,
 } from "../actions/update-patient.action";
 import { patientKeys } from "../queries/patient-query-keys";
-import type { PatientDto } from "../schemas/patient.schema";
-
-async function fetchPatient(id: string): Promise<PatientDto> {
-  const res = await fetch(`/api/patients/${id}`);
-  if (!res.ok) {
-    throw new Error("Failed to load patient");
-  }
-  return res.json() as Promise<PatientDto>;
-}
+import { fetchPatientById } from "../services/fetch-patient-by-id";
 
 const initialActionState: UpdatePatientActionState = { status: "idle" };
 
-export function PatientDetailPanel({ patientId }: { patientId: string }) {
+export function PatientDetailPanel({
+  patientId,
+}: {
+  patientId: string;
+}): ReactNode {
   const queryClient = useQueryClient();
   const { data, isPending, isError, error } = useQuery({
     queryKey: patientKeys.detail(patientId),
-    queryFn: () => fetchPatient(patientId),
+    queryFn: () => fetchPatientById(patientId),
   });
 
   const [state, formAction, isPendingAction] = useActionState(

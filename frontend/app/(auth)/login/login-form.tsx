@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "ui-components";
 
-export function LoginForm() {
+export function LoginForm(): ReactElement {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);

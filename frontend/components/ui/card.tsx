@@ -3,8 +3,8 @@ import * as React from "react"
 import {
   type CardVariants,
   cardVariants,
-} from "@/lib/design-system/variants/card-variants"
-import { cn } from "@/lib/utils"
+} from "variants"
+import { cn } from "lib"
 
 export type CardProps = React.ComponentProps<"div"> &
   Omit<CardVariants, "density"> & {

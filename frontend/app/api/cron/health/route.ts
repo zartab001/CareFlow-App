@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+import { env } from "@/config/env";
+import { nowIso } from "lib";
+
+export async function GET(request: Request): Promise<NextResponse> {
   const secret = request.headers.get("authorization");
-  if (secret !== `Bearer ${process.env.CRON_SECRET}`) {
+  const expected = env.CRON_SECRET ? `Bearer ${env.CRON_SECRET}` : null;
+  if (!expected || secret !== expected) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
-  return NextResponse.json({ ok: true, ranAt: new Date().toISOString() });
+  return NextResponse.json({ ok: true, ranAt: nowIso() });
 }

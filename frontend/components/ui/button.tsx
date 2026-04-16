@@ -3,8 +3,8 @@ import { Loader2Icon } from "lucide-react"
 import * as React from "react"
 import type { VariantProps } from "tailwind-variants"
 
-import { buttonVariants } from "@/lib/design-system/variants/button-variants"
-import { cn } from "@/lib/utils"
+import { buttonVariants } from "variants"
+import { cn } from "lib"
 
 type ButtonProps = ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants> & {
