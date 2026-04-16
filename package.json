@@ -12,7 +12,7 @@
     "check:barrel-imports": "node scripts/check-barrel-imports.js",
     "check:barrel-completeness": "node scripts/check-barrel-completeness.js",
     "verify": "node scripts/verify-codebase.js",
-    "prepare": "cd .. && husky frontend/.husky"
+    "prepare": "husky .husky"
   },
   "dependencies": {
     "@auth/core": "^0.41.2",
