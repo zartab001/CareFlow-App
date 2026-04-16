@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -15,48 +18,42 @@ const noDeepFeatureImports = [
   "emails/**/*.{ts,tsx}",
 ];
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  {
-    plugins: {
-      "simple-import-sort": simpleImportSort,
-    },
-    rules: {
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
-    },
+const eslintConfig = defineConfig([...nextVitals, ...nextTs, {
+  plugins: {
+    "simple-import-sort": simpleImportSort,
   },
-  {
-    files: noDeepFeatureImports,
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: [
-                "@/features/*/components/**",
-                "@/features/*/hooks/**",
-                "@/features/*/actions/**",
-                "@/features/*/schemas/**",
-                "@/features/*/queries/**",
-              ],
-              message:
-                "Import from @/features/<module> (barrel) only — no deep imports from outside that feature.",
-            },
-          ],
-        },
-      ],
-    },
+  rules: {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
   },
-  globalIgnores([
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-    "scripts/**",
-  ]),
-]);
+}, {
+  files: noDeepFeatureImports,
+  rules: {
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: [
+              "@/features/*/components/**",
+              "@/features/*/hooks/**",
+              "@/features/*/actions/**",
+              "@/features/*/schemas/**",
+              "@/features/*/queries/**",
+            ],
+            message:
+              "Import from @/features/<module> (barrel) only — no deep imports from outside that feature.",
+          },
+        ],
+      },
+    ],
+  },
+}, globalIgnores([
+  ".next/**",
+  "out/**",
+  "build/**",
+  "next-env.d.ts",
+  "scripts/**",
+]), ...storybook.configs["flat/recommended"]]);
 
 export default eslintConfig;
