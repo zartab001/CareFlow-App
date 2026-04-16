@@ -1,9 +1,10 @@
-FILES="$(git diff --cached --name-only --diff-filter=ACMR | rg '\.(ts|tsx|js|jsx)$' || true)"
+# Git runs hooks from the repo root; only check staged files under frontend/.
+FILES="$(git diff --cached --name-only --diff-filter=ACMR | grep -E '^frontend/.*\.(ts|tsx|js|jsx)$' || true)"
 
 if [ -z "$FILES" ]; then
   exit 0
 fi
 
-node scripts/check-banned-patterns.js $FILES
-node scripts/check-file-length.js $FILES
-node scripts/check-barrel-imports.js $FILES
+node frontend/scripts/check-banned-patterns.js $FILES
+node frontend/scripts/check-file-length.js $FILES
+node frontend/scripts/check-barrel-imports.js $FILES
