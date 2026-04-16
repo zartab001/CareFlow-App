@@ -5,7 +5,10 @@ import { getPatientById } from "@/features/patients/server/get-patient";
 
 type RouteContext = { params: Promise<{ patientId: string }> };
 
-export async function GET(_request: Request, context: RouteContext) {
+export async function GET(
+  _request: Request,
+  context: RouteContext,
+): Promise<NextResponse> {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

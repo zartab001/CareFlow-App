@@ -1,7 +1,8 @@
 import Link from "next/link";
+import type { ReactElement, ReactNode } from "react";
 
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { buttonVariants } from "variants";
+import { cn } from "lib";
 
 const nav = [
   { href: "/", label: "Home" },
@@ -19,7 +20,7 @@ const nav = [
 
 export function DashboardShell({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: ReactNode }>): ReactElement {
   return (
     <div className="flex min-h-full bg-muted/30">
       <aside className="hidden w-56 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground md:flex">

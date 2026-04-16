@@ -302,6 +302,19 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /** Prefer visible focus for keyboard users; components with custom rings use `outline-none`. */
+  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  :where(button:not(:disabled), [role="button"]:not([aria-disabled="true"])) {
+    @apply cursor-pointer;
+  }
+  :where(button:disabled, [aria-disabled="true"]) {
+    @apply cursor-not-allowed;
+  }
+  :where(input:disabled, textarea:disabled, select:disabled) {
+    @apply cursor-not-allowed;
+  }
   html {
     @apply font-sans antialiased;
   }

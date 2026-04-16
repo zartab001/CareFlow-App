@@ -1,35 +1,54 @@
 "use client"
 
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
+
+type TrackSize = "sm" | "default" | "lg"
+
+const ProgressTrackSizeContext = React.createContext<TrackSize>("default")
 
 function Progress({
   className,
   children,
   value,
+  trackSize = "default",
   ...props
-}: ProgressPrimitive.Root.Props) {
+}: ProgressPrimitive.Root.Props & {
+  /** Bar height — HTML `.progress` / `.progress-sm` / `.progress-lg` */
+  trackSize?: TrackSize
+}) {
   return (
-    <ProgressPrimitive.Root
-      value={value}
-      data-slot="progress"
-      className={cn("flex flex-wrap gap-3", className)}
-      {...props}
-    >
-      {children}
-      <ProgressTrack>
-        <ProgressIndicator />
-      </ProgressTrack>
-    </ProgressPrimitive.Root>
+    <ProgressTrackSizeContext.Provider value={trackSize}>
+      <ProgressPrimitive.Root
+        value={value}
+        data-slot="progress"
+        data-track-size={trackSize}
+        className={cn("flex flex-wrap gap-3", className)}
+        {...props}
+      >
+        {children == null ? (
+          <ProgressTrack>
+            <ProgressIndicator />
+          </ProgressTrack>
+        ) : (
+          children
+        )}
+      </ProgressPrimitive.Root>
+    </ProgressTrackSizeContext.Provider>
   )
 }
 
 function ProgressTrack({ className, ...props }: ProgressPrimitive.Track.Props) {
+  const trackSize = React.useContext(ProgressTrackSizeContext)
   return (
     <ProgressPrimitive.Track
       className={cn(
-        "relative flex h-1 w-full items-center overflow-x-hidden rounded-full bg-muted",
+        "relative flex w-full items-center overflow-x-hidden rounded bg-muted",
+        trackSize === "sm" && "h-1",
+        trackSize === "default" && "h-2",
+        trackSize === "lg" && "h-3",
         className
       )}
       data-slot="progress-track"
@@ -45,7 +64,7 @@ function ProgressIndicator({
   return (
     <ProgressPrimitive.Indicator
       data-slot="progress-indicator"
-      className={cn("h-full bg-primary transition-all", className)}
+      className={cn("h-full rounded-sm bg-primary transition-all", className)}
       {...props}
     />
   )

@@ -1,8 +1,13 @@
 import Link from "next/link";
+import type { ReactElement } from "react";
 
 import type { PatientDto } from "../schemas/patient.schema";
 
-export function PatientList({ patients }: { patients: PatientDto[] }) {
+export function PatientList({
+  patients,
+}: {
+  patients: PatientDto[];
+}): ReactElement {
   if (patients.length === 0) {
     return (
       <p className="text-sm text-muted-foreground">No service users yet.</p>

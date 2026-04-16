@@ -1,51 +1,61 @@
 "use client"
 
-import { BellIcon, SearchIcon } from "lucide-react"
+import {
+  AlertCircle,
+  AlertTriangle,
+  BellIcon,
+  Check,
+  Info,
+  SearchIcon,
+} from "lucide-react"
 import * as React from "react"
 
 import {
   Alert,
+  AlertContent,
   AlertDescription,
+  AlertIcon,
   AlertTitle,
-} from "@/components/ui/alert"
-import { Avatar, AvatarFallback, AvatarGroup } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Chip } from "@/components/ui/chip"
-import { DatePicker } from "@/components/ui/date-picker"
-import { EmptyState } from "@/components/ui/empty-state"
-import { IconButton } from "@/components/ui/icon-button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Progress } from "@/components/ui/progress"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Separator } from "@/components/ui/separator"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/toast"
+  Badge,
+  Button,
+  ButtonGroup,
+  Checkbox,
+  DatePicker,
+  EmptyState,
+  Field,
+  FieldDescription,
+  IconButton,
+  Input,
+  Label,
+  Progress,
+  ProgressIndicator,
+  ProgressTrack,
+  RadioGroup,
+  RadioGroupItem,
+  Separator,
+  Skeleton,
+  Slider,
+  StatCard,
+  StatCardHeader,
+  StatCardIcon,
+  StatCardLabel,
+  StatCardTrend,
+  StatCardValue,
+  Switch,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Textarea,
+  toast,
+} from "ui-components"
 
-export default function UiGalleryPage() {
+import { GalleryBadgesAvatars } from "./gallery-badges-avatars"
+import { GalleryCards } from "./gallery-cards"
+import { GalleryTables } from "./gallery-tables"
+
+export default function UiGalleryPage(): React.ReactElement {
+  const statMetricLabelId = React.useId()
   const [date, setDate] = React.useState<Date | undefined>()
   const [progress, setProgress] = React.useState(40)
   const [slider, setSlider] = React.useState([30])
@@ -101,14 +111,31 @@ export default function UiGalleryPage() {
       <section className="space-y-4">
         <h2 className="font-heading text-lg font-bold">Forms</h2>
         <div className="grid max-w-md gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="g-name">Full name</Label>
+          <Field>
+            <Label htmlFor="g-name" required>
+              Full name
+            </Label>
             <Input id="g-name" placeholder="Jane Cooper" />
-          </div>
-          <div className="space-y-2">
+            <FieldDescription>Use the name on the care record.</FieldDescription>
+          </Field>
+          <Field>
+            <Label htmlFor="g-nickname" optional>
+              Preferred name
+            </Label>
+            <Input id="g-nickname" placeholder="Jay" />
+          </Field>
+          <Field>
             <Label htmlFor="g-notes">Notes</Label>
             <Textarea id="g-notes" rows={3} placeholder="Visit notes…" />
-          </div>
+            <FieldDescription tone="success">
+              Autosaves while you type.
+            </FieldDescription>
+          </Field>
+          <Field>
+            <Label htmlFor="g-code">Access code</Label>
+            <Input id="g-code" placeholder="0000" aria-invalid />
+            <FieldDescription tone="error">Must be four digits.</FieldDescription>
+          </Field>
           <div className="flex items-center gap-2">
             <Checkbox id="g-agree" />
             <Label htmlFor="g-agree">Agree to terms</Label>
@@ -144,7 +171,11 @@ export default function UiGalleryPage() {
           </div>
           <div className="space-y-2">
             <Label>Progress</Label>
-            <Progress value={progress} />
+            <div className="space-y-3">
+              <Progress value={progress} trackSize="sm" />
+              <Progress value={progress} />
+              <Progress value={progress} trackSize="lg" />
+            </div>
             <Button
               type="button"
               size="sm"
@@ -157,63 +188,55 @@ export default function UiGalleryPage() {
         </div>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="font-heading text-lg font-bold">Badges & chips</h2>
-        <div className="flex flex-wrap gap-2">
-          <Badge>Default</Badge>
-          <Badge variant="secondary">Secondary</Badge>
-          <Badge variant="outline">Outline</Badge>
-          <Chip tone="success">Active</Chip>
-          <Chip tone="warning" onDismiss={() => undefined}>
-            Removable
-          </Chip>
-        </div>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="font-heading text-lg font-bold">Avatar group</h2>
-        <AvatarGroup>
-          <Avatar>
-            <AvatarFallback>AB</AvatarFallback>
-          </Avatar>
-          <Avatar>
-            <AvatarFallback>CD</AvatarFallback>
-          </Avatar>
-          <Avatar>
-            <AvatarFallback>EF</AvatarFallback>
-          </Avatar>
-        </AvatarGroup>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="font-heading text-lg font-bold">Card</h2>
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle>Patient profile</CardTitle>
-            <CardDescription>Summary card example</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Content uses design tokens.
-            </p>
-          </CardContent>
-          <CardFooter className="gap-2">
-            <Button size="sm">Open</Button>
-            <Button size="sm" variant="secondary">
-              Dismiss
-            </Button>
-          </CardFooter>
-        </Card>
-      </section>
+      <GalleryBadgesAvatars />
+      <GalleryCards />
 
       <section className="space-y-4">
         <h2 className="font-heading text-lg font-bold">Alert & toast</h2>
-        <Alert className="max-w-lg">
-          <AlertTitle>Heads up</AlertTitle>
-          <AlertDescription>
-            This is an informational alert using CareFlow styles.
-          </AlertDescription>
-        </Alert>
+        <div className="flex max-w-lg flex-col gap-3">
+          <Alert variant="success">
+            <AlertIcon>
+              <Check aria-hidden />
+            </AlertIcon>
+            <AlertContent>
+              <AlertTitle>Visit completed</AlertTitle>
+              <AlertDescription>
+                Notes were saved to the patient timeline.
+              </AlertDescription>
+            </AlertContent>
+          </Alert>
+          <Alert variant="info">
+            <AlertIcon>
+              <Info aria-hidden />
+            </AlertIcon>
+            <AlertContent>
+              <AlertTitle>Heads up</AlertTitle>
+              <AlertDescription>
+                This is an informational alert using CareFlow styles.
+              </AlertDescription>
+            </AlertContent>
+          </Alert>
+          <Alert variant="warning">
+            <AlertIcon>
+              <AlertTriangle aria-hidden />
+            </AlertIcon>
+            <AlertContent>
+              <AlertTitle>Review medication</AlertTitle>
+              <AlertDescription>
+                One dose is due within the hour.
+              </AlertDescription>
+            </AlertContent>
+          </Alert>
+          <Alert variant="error">
+            <AlertIcon>
+              <AlertCircle aria-hidden />
+            </AlertIcon>
+            <AlertContent>
+              <AlertTitle>Sync failed</AlertTitle>
+              <AlertDescription>Try again or contact support.</AlertDescription>
+            </AlertContent>
+          </Alert>
+        </div>
         <Button type="button" variant="secondary" onClick={() => toast("Saved")}>
           Show toast
         </Button>
@@ -231,25 +254,7 @@ export default function UiGalleryPage() {
         </Tabs>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="font-heading text-lg font-bold">Table</h2>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Patient</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>M. Johnson</TableCell>
-              <TableCell>
-                <Badge variant="secondary">Active</Badge>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </section>
+      <GalleryTables />
 
       <section className="space-y-4">
         <h2 className="font-heading text-lg font-bold">Skeleton</h2>
@@ -260,6 +265,29 @@ export default function UiGalleryPage() {
             <Skeleton className="h-4 w-32" />
           </div>
         </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="font-heading text-lg font-bold">Stat card</h2>
+        <StatCard
+          className="max-w-sm"
+          aria-labelledby={statMetricLabelId}
+        >
+          <StatCardHeader>
+            <StatCardIcon tone="brand">
+              <Check aria-hidden className="size-[18px]" strokeWidth={2} />
+            </StatCardIcon>
+          </StatCardHeader>
+          <StatCardLabel id={statMetricLabelId}>Visits today</StatCardLabel>
+          <StatCardValue>127</StatCardValue>
+          <StatCardTrend>
+            <Badge variant="secondary" className="gap-1">
+              <Check className="size-2.5" strokeWidth={3} aria-hidden />
+              96.1%
+            </Badge>
+            <span>vs last week</span>
+          </StatCardTrend>
+        </StatCard>
       </section>
 
       <section className="space-y-4">
