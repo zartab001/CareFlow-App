@@ -6,7 +6,7 @@ import {
   type TableVariants,
   tableVariants,
 } from "variants"
-import { cn } from "@/lib/utils"
+import { cn } from "lib"
 
 type TableVariant = NonNullable<TableVariants["variant"]>
 

@@ -38,7 +38,7 @@ const BANNED_PATTERNS = [
   { pattern: /from\s+["']@\/components\/shared\/[^"']*["']/, alias: "shared", example: "import { x } from 'shared'" },
   { pattern: /from\s+["']@\/components\/layouts\/[^"']*["']/, alias: "layouts", example: "import { x } from 'layouts'" },
   { pattern: /from\s+["']@\/components\/sections\/[^"']*["']/, alias: "sections", example: "import { x } from 'sections'" },
-  { pattern: /from\s+["']@\/components\/variants\/[^"']*["']/, alias: "variants", example: "import { x } from 'variants'" },
+  { pattern: /from\s+["']@\/components\/design-system\/variants\/[^"']*["']/, alias: "variants", example: "import { x } from 'variants'" },
   { pattern: /from\s+["'](lib\/[^"']+)["']/, alias: "lib", example: "import { x } from 'lib'", isLib: true },
   { pattern: /from\s+["']hooks\/[^"']+["']/, alias: "hooks", example: "import { x } from 'hooks'" },
   { pattern: /from\s+["']utils\/[^"']+["']/, alias: "utils", example: "import { x } from 'utils'" },
