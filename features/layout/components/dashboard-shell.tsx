@@ -89,7 +89,7 @@ const navGroups: NavGroup[] = [
         ),
       },
       {
-        href: "#",
+        href: "/careplans",
         label: "Care Plans",
         icon: (
           <svg className="h-[18px] w-[18px] shrink-0 opacity-50 group-hover/item:opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
