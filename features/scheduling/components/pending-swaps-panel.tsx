@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeftRight } from "lucide-react";
 import { mockPendingSwaps } from "../data/mock-data";
 import type { PendingSwap } from "../types";
 
@@ -12,7 +11,7 @@ interface PendingSwapsPanelProps {
 function SwapAvatar({ initials, color }: { initials: string; color: string }) {
   return (
     <span
-      className="inline-flex w-5 h-5 rounded-full items-center justify-center text-[9px] font-bold text-white"
+      className="inline-flex w-6 h-6 rounded-full items-center justify-center text-[10px] font-bold text-white shrink-0"
       style={{ backgroundColor: color }}
     >
       {initials}
@@ -25,40 +24,39 @@ export function PendingSwapsPanel({ swaps = mockPendingSwaps }: PendingSwapsPane
 
   const active = swaps.filter((s) => !dismissed.includes(s.id));
 
-  const handleApprove = (id: string) => setDismissed((prev) => [...prev, id]);
-  const handleReject = (id: string) => setDismissed((prev) => [...prev, id]);
-
   return (
     <div className="animate-fade-in">
-      <p className="text-[12px] font-semibold text-[#111827] mb-3">Pending Swaps</p>
+      <p className="text-[13px] font-bold text-[#111827] mb-3">Pending Swaps</p>
       <div className="space-y-3">
         {active.map((swap, i) => (
           <div
             key={swap.id}
-            className="border border-[#E4E5EA] rounded-lg p-2.5 transition-all duration-300 animate-fade-in"
+            className="border border-[#E4E5EA] rounded-xl p-3 transition-all duration-300 animate-fade-in"
             style={{ animationDelay: `${i * 60}ms` }}
           >
-            {/* Carer names */}
-            <div className="flex items-center gap-1.5 mb-1.5">
+            {/* Carer swap row */}
+            <div className="flex items-center gap-2 mb-1.5">
               <SwapAvatar initials={swap.fromInitials} color={swap.fromColor} />
-              <span className="text-[10px] font-semibold text-[#374151]">{swap.fromCarer}</span>
-              <ArrowLeftRight size={10} className="text-[#9CA3AF] mx-0.5" />
+              <span className="text-[11px] font-bold text-[#374151]">{swap.fromCarer}</span>
+              <span className="text-[10px] text-[#9CA3AF] mx-0.5">⇄</span>
               <SwapAvatar initials={swap.toInitials} color={swap.toColor} />
-              <span className="text-[10px] font-semibold text-[#374151]">{swap.toCarer}</span>
+              <span className="text-[11px] font-bold text-[#374151]">{swap.toCarer}</span>
             </div>
-            <p className="text-[9px] text-[#9CA3AF] mb-2">{swap.day} · {swap.shift}</p>
+            <p className="text-[10px] text-[#9CA3AF] mb-3">
+              {swap.day} · {swap.shift}
+            </p>
 
-            {/* Actions */}
-            <div className="flex gap-1.5">
+            {/* Approve / Reject buttons — matching Figma exactly */}
+            <div className="flex gap-2">
               <button
-                onClick={() => handleApprove(swap.id)}
-                className="flex-1 py-1 text-[10px] font-semibold text-[#16A34A] bg-[#F0FDF4] border border-[#22C55E]/30 rounded-md hover:bg-[#DCFCE7] transition-colors duration-150 active:scale-95"
+                onClick={() => setDismissed((p) => [...p, swap.id])}
+                className="flex-1 py-1.5 text-[11px] font-semibold text-[#16A34A] border border-[#22C55E]/50 rounded-lg bg-white hover:bg-[#F0FDF4] transition-colors duration-150 active:scale-95"
               >
                 Approve
               </button>
               <button
-                onClick={() => handleReject(swap.id)}
-                className="flex-1 py-1 text-[10px] font-semibold text-[#6B7280] bg-[#F9FAFB] border border-[#E4E5EA] rounded-md hover:bg-[#F3F4F6] transition-colors duration-150 active:scale-95"
+                onClick={() => setDismissed((p) => [...p, swap.id])}
+                className="flex-1 py-1.5 text-[11px] font-semibold text-[#6B7280] border border-[#D1D5DB] rounded-lg bg-white hover:bg-[#F3F4F6] transition-colors duration-150 active:scale-95"
               >
                 Reject
               </button>
@@ -67,9 +65,7 @@ export function PendingSwapsPanel({ swaps = mockPendingSwaps }: PendingSwapsPane
         ))}
 
         {active.length === 0 && (
-          <p className="text-[11px] text-[#9CA3AF] text-center py-4">
-            No pending swaps
-          </p>
+          <p className="text-[12px] text-[#9CA3AF] text-center py-4">No pending swaps</p>
         )}
       </div>
     </div>
