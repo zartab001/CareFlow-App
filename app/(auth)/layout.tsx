@@ -7,11 +7,12 @@ import type { ReactNode } from "react";
 import { AuthBrandPanel } from "@/components/auth/auth-brand-panel";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
+  // Resolve pathname here so AuthBrandPanel stays a pure prop-driven component
+  // (no next/navigation dependency — fully testable in Storybook)
   const pathname = usePathname();
 
   return (
     <div className="flex min-h-screen bg-[#f5f5f0]">
-      {/* Left green branding panel */}
       <AuthBrandPanel pathname={pathname} />
 
       {/* Right white form panel */}

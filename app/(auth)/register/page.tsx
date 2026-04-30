@@ -1,6 +1,23 @@
-import { RegisterForm } from "./register-form";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { RegisterForm, type RegisterPayload } from "./register-form";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
+  async function handleSubmit(data: RegisterPayload) {
+    // TODO: call your registration API here
+    await new Promise((r) => setTimeout(r, 1000));
+    router.push("/");
+    return { error: null };
+  }
+
+  async function handleNhs() {
+    await signIn("demo", { callbackUrl: "/" });
+  }
+
   return (
     <div className="space-y-7">
       <div>
@@ -11,7 +28,7 @@ export default function RegisterPage() {
           Start your free 14-day trial. No credit card required.
         </p>
       </div>
-      <RegisterForm />
+      <RegisterForm onSubmit={handleSubmit} onNhsClick={handleNhs} />
     </div>
   );
 }

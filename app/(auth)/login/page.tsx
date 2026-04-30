@@ -1,4 +1,4 @@
-import { LoginForm } from "./login-form";
+import { LoginFormWrapper } from "./login-form-wrapper";
 
 export default function LoginPage() {
   return (
@@ -11,7 +11,7 @@ export default function LoginPage() {
           Sign in to your CareFlow account
         </p>
       </div>
-      <LoginForm />
+      <LoginFormWrapper />
     </div>
   );
 }

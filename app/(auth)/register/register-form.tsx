@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Loader2, ChevronDown } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "ui-components";
@@ -11,12 +10,8 @@ import { Label } from "ui-components";
 import { NhsIcon } from "@/components/auth/nhs-icon";
 
 const ROLES = [
-  "Registered Manager",
-  "Deputy Manager",
-  "Care Coordinator",
-  "Senior Carer",
-  "Administrator",
-  "Director / Owner",
+  "Registered Manager", "Deputy Manager", "Care Coordinator",
+  "Senior Carer", "Administrator", "Director / Owner",
 ];
 
 const fadeUp = {
@@ -27,39 +22,53 @@ const fadeUp = {
   }),
 };
 
-export function RegisterForm() {
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+export interface RegisterFormProps {
+  /** Injected by the page in prod; stub in Storybook */
+  onSubmit?: (data: RegisterPayload) => Promise<{ error?: string | null }>;
+  onNhsClick?: () => void;
+}
+
+export interface RegisterPayload {
+  name: string; email: string; agency: string; password: string; role: string;
+}
+
+export function RegisterForm({ onSubmit, onNhsClick }: RegisterFormProps) {
+  const [showPw, setShowPw] = useState(false);
   const [pending, setPending] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [form, setForm] = useState({ name: "", email: "", agency: "", password: "", role: "Registered Manager" });
+  const [form, setForm] = useState<RegisterPayload>(
+    { name: "", email: "", agency: "", password: "", role: "Registered Manager" }
+  );
 
-  function update(field: string, value: string) {
+  function update(field: keyof RegisterPayload, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!agreed) { setError("Please agree to the Terms of Service and Privacy Policy"); return; }
+    if (!onSubmit) return;
     setError(null);
     setPending(true);
-    // Placeholder — wire to your API
-    await new Promise((r) => setTimeout(r, 1200));
-    setPending(false);
-    router.push("/");
+    try {
+      const res = await onSubmit(form);
+      if (res?.error) setError(res.error);
+    } catch {
+      setError("Registration failed. Please try again.");
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
     <form onSubmit={(e) => void handleSubmit(e)} className="space-y-4">
-      {/* Full name */}
       <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible" className="space-y-1.5">
         <Label htmlFor="name" className="text-sm font-medium text-zinc-700">Full name</Label>
         <Input id="name" placeholder="Jane Smith" value={form.name} onChange={(e) => update("name", e.target.value)}
           required className="h-10 border-zinc-200 bg-white text-sm placeholder:text-zinc-400 focus-visible:ring-[#1a6b3c] focus-visible:border-[#1a6b3c] transition-all" />
       </motion.div>
 
-      {/* Work email */}
       <motion.div custom={1} variants={fadeUp} initial="hidden" animate="visible" className="space-y-1.5">
         <Label htmlFor="reg-email" className="text-sm font-medium text-zinc-700">Work email</Label>
         <Input id="reg-email" type="email" placeholder="jane@sunrisecare.co.uk" value={form.email}
@@ -67,7 +76,6 @@ export function RegisterForm() {
           className="h-10 border-zinc-200 bg-white text-sm placeholder:text-zinc-400 focus-visible:ring-[#1a6b3c] focus-visible:border-[#1a6b3c] transition-all" />
       </motion.div>
 
-      {/* Agency name */}
       <motion.div custom={2} variants={fadeUp} initial="hidden" animate="visible" className="space-y-1.5">
         <Label htmlFor="agency" className="text-sm font-medium text-zinc-700">Agency name</Label>
         <Input id="agency" placeholder="Sunrise Care Ltd" value={form.agency}
@@ -75,22 +83,20 @@ export function RegisterForm() {
           className="h-10 border-zinc-200 bg-white text-sm placeholder:text-zinc-400 focus-visible:ring-[#1a6b3c] focus-visible:border-[#1a6b3c] transition-all" />
       </motion.div>
 
-      {/* Password */}
       <motion.div custom={3} variants={fadeUp} initial="hidden" animate="visible" className="space-y-1.5">
         <Label htmlFor="reg-password" className="text-sm font-medium text-zinc-700">Password</Label>
         <div className="relative">
-          <Input id="reg-password" type={showPassword ? "text" : "password"} placeholder="••••••••"
+          <Input id="reg-password" type={showPw ? "text" : "password"} placeholder="••••••••"
             value={form.password} onChange={(e) => update("password", e.target.value)} required
             className="h-10 border-zinc-200 bg-white pr-10 text-sm placeholder:text-zinc-400 focus-visible:ring-[#1a6b3c] focus-visible:border-[#1a6b3c] transition-all" />
-          <button type="button" onClick={() => setShowPassword(!showPassword)}
+          <button type="button" onClick={() => setShowPw(!showPw)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 transition-colors">
-            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
         <p className="text-xs text-zinc-400">Min 8 characters · 1 uppercase · 1 number</p>
       </motion.div>
 
-      {/* Role select */}
       <motion.div custom={4} variants={fadeUp} initial="hidden" animate="visible" className="space-y-1.5">
         <Label htmlFor="role" className="text-sm font-medium text-zinc-700">Your role</Label>
         <div className="relative">
@@ -102,10 +108,9 @@ export function RegisterForm() {
         </div>
       </motion.div>
 
-      {/* Terms */}
       <motion.div custom={5} variants={fadeUp} initial="hidden" animate="visible" className="flex items-start gap-2">
         <input type="checkbox" id="terms" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
-          className="mt-0.5 h-4 w-4 rounded border-zinc-300 text-[#1a6b3c] accent-[#1a6b3c] cursor-pointer" />
+          className="mt-0.5 h-4 w-4 rounded border-zinc-300 accent-[#1a6b3c] cursor-pointer" />
         <label htmlFor="terms" className="text-sm text-zinc-600 cursor-pointer leading-relaxed">
           I agree to the{" "}
           <a href="#" className="text-[#1a6b3c] hover:underline font-medium">Terms of Service</a>
@@ -121,20 +126,19 @@ export function RegisterForm() {
 
       <motion.div custom={6} variants={fadeUp} initial="hidden" animate="visible">
         <Button type="submit" disabled={pending}
-          className="h-10 w-full bg-[#1a6b3c] hover:bg-[#155c32] active:bg-[#0f4425] text-white font-medium transition-all duration-200 shadow-sm hover:shadow-md">
+          className="h-10 w-full bg-[#1a6b3c] hover:bg-[#155c32] text-white font-medium transition-all shadow-sm hover:shadow-md">
           {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Start free trial"}
         </Button>
       </motion.div>
 
-      <motion.div custom={7} variants={fadeUp} initial="hidden" animate="visible"
-        className="flex items-center gap-3">
+      <motion.div custom={7} variants={fadeUp} initial="hidden" animate="visible" className="flex items-center gap-3">
         <div className="h-px flex-1 bg-zinc-200" /><span className="text-xs text-zinc-400">or</span>
         <div className="h-px flex-1 bg-zinc-200" />
       </motion.div>
 
       <motion.div custom={8} variants={fadeUp} initial="hidden" animate="visible">
-        <Button type="button" variant="outline"
-          className="h-10 w-full border-zinc-200 bg-white text-zinc-700 font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-all gap-2">
+        <Button type="button" variant="outline" onClick={onNhsClick}
+          className="h-10 w-full border-zinc-200 bg-white text-zinc-700 font-medium hover:bg-zinc-50 transition-all gap-2">
           <NhsIcon />Sign up with NHS Identity
         </Button>
       </motion.div>

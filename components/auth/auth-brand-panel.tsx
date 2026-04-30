@@ -3,6 +3,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Heart } from "lucide-react";
 
+export interface AuthBrandPanelProps {
+  pathname: string;
+}
+
 const PANEL_CONTENT: Record<
   string,
   { headline: string; sub?: string; features?: string[]; quote?: { text: string; author: string } }
@@ -33,7 +37,7 @@ const PANEL_CONTENT: Record<
   },
 };
 
-export function AuthBrandPanel({ pathname }: { pathname: string }) {
+export function AuthBrandPanel({ pathname }: AuthBrandPanelProps) {
   const content = PANEL_CONTENT[pathname] ?? PANEL_CONTENT["/login"];
 
   return (
